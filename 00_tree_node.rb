@@ -1,4 +1,5 @@
 require "byebug"
+require_relative "Knight_Path_Finder.rb"
 class PolyTreeNode
 
     attr_reader :parent, :children, :value
@@ -44,7 +45,6 @@ class PolyTreeNode
     end
 
     def bfs(target)
-
         queue = [self]
         until queue.empty?
             instance = queue.shift
@@ -55,5 +55,5 @@ class PolyTreeNode
         end
         nil
     end
-
 end
+
