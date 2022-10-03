@@ -15,12 +15,13 @@ class KnightPathFinder
 
     end
 
-    attr_reader :start_pos, :root_node
+    attr_reader :start_pos, :root_node, :considered_positions
 
     def initialize(start_pos)
         @start_pos = start_pos
         @root_node = PolyTreeNode.new(start_pos)
         @considered_positions = [start_pos]
+        @move_tree = self.build_move_tree
     end
 
     def new_move_positions(pos)
@@ -35,19 +36,23 @@ class KnightPathFinder
         return new_moves
     end
 
-    def build_move_tree(start_pos)
+    def build_move_tree
         queue = [self.root_node]
         until queue.empty?
             position = queue.shift
-
-            position.new_move_positions(end_pos).each do |new_move|
-                queue << PolyTreeNode.new(new_move).root_node
+            # node = PolyTreeNode.new(position) if self.root_node != position
+            self.new_move_positions(position.value).each do |child| # [[1,1] [2,2] [3,3]]
+                child_instance = PolyTreeNode.new(child)
+                queue << child_instance
+                position.add_child(child_instance)
             end
-            # queue += position.new_move_positions(position.root_node)
-
-
         end
     end
+
+            # position.new_move_positions(end_pos).each do |new_move|
+            #     queue << PolyTreeNode.new(new_move).root_node
+            # end
+            # queue += position.new_move_positions(position.root_node)
 
 
 end
@@ -55,5 +60,7 @@ end
 kpf = KnightPathFinder.new([0,0])
 kpf
 
-KnightPathFinder.valid_moves([3,4])
-p kpf.new_move_positions([3,4])
+# KnightPathFinder.valid_moves([3,4])
+# p kpf.new_move_positions([3,4])
+kpf.build_move_tree([0,0])
+p kpf.considered_positions.length
