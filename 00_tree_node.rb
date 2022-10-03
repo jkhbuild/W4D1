@@ -1,5 +1,5 @@
 require "byebug"
-require_relative "Knight_Path_Finder.rb"
+# require_relative "Knight_Path_Finder.rb"
 class PolyTreeNode
 
     attr_reader :parent, :children, :value
